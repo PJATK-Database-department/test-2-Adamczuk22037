@@ -23,19 +23,23 @@ namespace s22037.Controllers
         //Make this async, a requirement.
 
         [HttpGet]
-        public IActionResult GetInspections()
+        public async Task<IActionResult> GetInspections()
         {
+
             //For each inspection includes and includes
             var inspections = _dbContex.Inspections.Include(i => i.Car).Include(i => i.Mechanic)
                 .Select(i => new
                 {
                     InspectionId = i.IdInspection,
                     InspectionDate = i.InspectionDate,
-                    Car = i.Car,
-                    Mechanic = i.Mechanic,
+                    Car = _dbContex.Cars.Where(c => i.IdCar == c.IdCar)
+                        .Select(c => new { Name = c.Name, YearOfProduction = c.ProductionYear }).Single(),
+                    Mechanic = _dbContex.Mechanics.Where(m => i.IdMechanic == m.IdMechanic)
+                        .Select(m => new { Name = m.FirstName, Surname = m.LastName }).Single(),
+                    ListOfServices = "ToBeImplemented",
                     Comment = i.Comment
                 });
-            return Ok(inspections.ToList());
+            return Ok(await inspections.ToListAsync());
         }
     }
 }
