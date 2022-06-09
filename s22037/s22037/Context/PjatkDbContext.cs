@@ -28,6 +28,7 @@ namespace s22037.Context
         public DbSet<Models.ServiceTypeDict> ServiceTypes { get; set; }
         public DbSet<Models.ServiceTypeDict_Inspection> ServiceTypeDict_Inspections { get; set; }
 
+        //Negative ids as per VisualStudio error's suggestion, to easily tell them apart from actual data.
         private void seedData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.Car>(c =>
@@ -53,6 +54,28 @@ namespace s22037.Context
                     new Models.Inspection { IdInspection = -3, IdCar = -2, IdMechanic = -1, InspectionDate = new DateTime(2022, 03, 02) }
                  );
             });
+
+            modelBuilder.Entity<Models.ServiceTypeDict>(st =>
+            {
+                st.HasData(
+                    new Models.ServiceTypeDict {  IdServiceType = -1, ServiceType = "ServiceType1", Price = (float)350.49 },
+                    new Models.ServiceTypeDict { IdServiceType = -2, ServiceType = "ServiceType2", Price = (float)500 },
+                    new Models.ServiceTypeDict { IdServiceType = -3, ServiceType = "ServiceType3", Price = (float)100 },
+                    new Models.ServiceTypeDict { IdServiceType = -4, ServiceType = "ServiceType4", Price = (float)235.75 }
+                 );
+            });
+
+            modelBuilder.Entity<Models.ServiceTypeDict_Inspection>(sti =>
+            {
+                sti.HasData(
+                    new Models.ServiceTypeDict_Inspection { IdInspection = -1, IdServiceType = -1},
+                    new Models.ServiceTypeDict_Inspection { IdInspection = -2, IdServiceType = -1, Comments = "Comments" },
+                    new Models.ServiceTypeDict_Inspection { IdInspection = -2, IdServiceType = -3 },
+                    new Models.ServiceTypeDict_Inspection { IdInspection = -2, IdServiceType = -4, Comments = "OtherComments" },
+                    new Models.ServiceTypeDict_Inspection { IdInspection = -3, IdServiceType = -2, Comments = "YetMoreComments" }
+                 );
+            });
         }
+
     }
 }

@@ -19,8 +19,6 @@ namespace s22037.Controllers
         {
             _dbContex = dbContext;
         }
-        
-        //Make this async, a requirement.
 
         [HttpGet]
         public async Task<IActionResult> GetInspections()
