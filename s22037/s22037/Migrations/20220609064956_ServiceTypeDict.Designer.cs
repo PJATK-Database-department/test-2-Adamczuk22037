@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using s22037.Context;
 
 namespace s22037.Migrations
 {
     [DbContext(typeof(PjatkDbContext))]
-    partial class PjatkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220609064956_ServiceTypeDict")]
+    partial class ServiceTypeDict
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,25 +112,6 @@ namespace s22037.Migrations
                     b.ToTable("ServiceTypes");
                 });
 
-            modelBuilder.Entity("s22037.Models.ServiceTypeDict_Inspection", b =>
-                {
-                    b.Property<int>("IdServiceType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdInspection")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comments")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.HasKey("IdServiceType", "IdInspection");
-
-                    b.HasIndex("IdInspection");
-
-                    b.ToTable("ServiceTypeDict_Inspections");
-                });
-
             modelBuilder.Entity("s22037.Models.Inspection", b =>
                 {
                     b.HasOne("s22037.Models.Car", "Car")
@@ -148,43 +131,14 @@ namespace s22037.Migrations
                     b.Navigation("Mechanic");
                 });
 
-            modelBuilder.Entity("s22037.Models.ServiceTypeDict_Inspection", b =>
-                {
-                    b.HasOne("s22037.Models.Inspection", "Inspection")
-                        .WithMany("ServiceTypeDict_Inspections")
-                        .HasForeignKey("IdInspection")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("s22037.Models.ServiceTypeDict", "ServiceType")
-                        .WithMany("ServiceTypeDict_Inspections")
-                        .HasForeignKey("IdServiceType")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Inspection");
-
-                    b.Navigation("ServiceType");
-                });
-
             modelBuilder.Entity("s22037.Models.Car", b =>
                 {
                     b.Navigation("Inspections");
                 });
 
-            modelBuilder.Entity("s22037.Models.Inspection", b =>
-                {
-                    b.Navigation("ServiceTypeDict_Inspections");
-                });
-
             modelBuilder.Entity("s22037.Models.Mechanic", b =>
                 {
                     b.Navigation("Inspections");
-                });
-
-            modelBuilder.Entity("s22037.Models.ServiceTypeDict", b =>
-                {
-                    b.Navigation("ServiceTypeDict_Inspections");
                 });
 #pragma warning restore 612, 618
         }

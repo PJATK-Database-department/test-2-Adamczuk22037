@@ -18,12 +18,25 @@ namespace s22037.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //This is how to create composite keys:
-            //modelBuilder.Entity<PrescriptionMedicament>().HasKey(pm => new { pm.IdMedicament, pm.IdPrescription });
+            modelBuilder.Entity<Models.ServiceTypeDict_Inspection>().HasKey(sti => new { sti.IdServiceType, sti.IdInspection });
+            //seedData(modelBuilder);
         }
 
-        //public DbSet<Entity> FutureTableName { get; set; }
         public DbSet<Models.Car> Cars { get; set; }
         public DbSet<Models.Mechanic> Mechanics { get; set; }
+        public DbSet<Models.Inspection> Inspections { get; set; }
+        public DbSet<Models.ServiceTypeDict> ServiceTypes { get; set; }
+        public DbSet<Models.ServiceTypeDict_Inspection> ServiceTypeDict_Inspections { get; set; }
+
+        private void seedData(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Models.Car>(c =>
+            {
+                c.HasData(
+                    new Models.Car { IdCar = -1, Name = "Car1", ProductionYear = 1998 },
+                    new Models.Car { IdCar = -2, Name = "Car2", ProductionYear = 2011 }
+                );
+            });
+        }
     }
 }

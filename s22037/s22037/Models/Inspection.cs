@@ -29,5 +29,7 @@ namespace s22037.Models
 
         [MaxLength(300)]
         public String Comment { get; set; }
+
+        public virtual ICollection<ServiceTypeDict_Inspection> ServiceTypeDict_Inspections { get; set; }
     }
 }
