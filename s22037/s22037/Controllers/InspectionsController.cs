@@ -45,7 +45,7 @@ namespace s22037.Controllers
         {
             Models.Inspection inspection = _dbContex.Inspections.Where(i => i.IdInspection == idInspection).SingleOrDefault();
             if (inspection == null) return NotFound("The database contains no inspection of this id.");
-            if (inspection.InspectionDate < DateTime.Today) return BadRequest("Cannot modify a completed inspection."); //Maybe something else than BadRequest but 4xx.
+            if (inspection.InspectionDate < DateTime.Today) return StatusCode(StatusCodes.Status403Forbidden, "Cannot modify a completed inspection.");
 
             Models.Car car = _dbContex.Cars.Where(c => c.IdCar == idCar).SingleOrDefault();
             if (car == null) return NotFound("The database contains no car of this id.");
@@ -53,7 +53,7 @@ namespace s22037.Controllers
             inspection.IdCar = idCar;
             await _dbContex.SaveChangesAsync();
 
-            return Ok(); //Might be 201Created.
+            return Ok("Inspection updated successfully."); 
         }
     }
 }
