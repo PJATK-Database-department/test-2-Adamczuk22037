@@ -34,12 +34,23 @@ namespace s22037.Controllers
                         .Select(m => new { Name = m.FirstName, Surname = m.LastName }).Single(),
                     ListOfServices = _dbContex.ServiceTypeDict_Inspections.Where(sti => sti.IdInspection == i.IdInspection)
                         .Include(sti => sti.ServiceType)
-                        .Select(sti => sti.ServiceType.ServiceType ).ToList(),
+                        .Select(sti => sti.ServiceType.ServiceType).ToList(),
                     Comment = i.Comment
                 });
             return Ok(await inspections.ToListAsync());
         }
 
-        //The second part may be in inspection too - not the best way but idk what else. The association between services and cars is literally inspection.
+        //Task update: not chaning service for the car
+        //(makes no sense, service is a dictionary type, it does not belong to a car in any sense)
+        //but instead changing which car undergoes the specific inspection.
+
+        [HttpPut("{idInspection}")]
+        public IActionResult ChangeCar(int idInspection)
+        {
+            Models.Inspection inspection = _dbContex.Inspections.Where(i => i.IdInspection == idInspection).SingleOrDefault();
+            if (inspection == null) return NotFound("The database contains no inspection of this id.");
+            //First, check if this inspection exists.
+            return Ok("Testing stage");
+        }
     }
 }
