@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using s22037.Context;
 
 namespace s22037.Migrations
 {
     [DbContext(typeof(PjatkDbContext))]
-    partial class PjatkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220609070618_SeedCarMechanicInspection")]
+    partial class SeedCarMechanicInspection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

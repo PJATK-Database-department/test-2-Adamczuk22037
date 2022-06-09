@@ -19,7 +19,7 @@ namespace s22037.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.ServiceTypeDict_Inspection>().HasKey(sti => new { sti.IdServiceType, sti.IdInspection });
-            //seedData(modelBuilder);
+            seedData(modelBuilder);
         }
 
         public DbSet<Models.Car> Cars { get; set; }
@@ -36,6 +36,22 @@ namespace s22037.Context
                     new Models.Car { IdCar = -1, Name = "Car1", ProductionYear = 1998 },
                     new Models.Car { IdCar = -2, Name = "Car2", ProductionYear = 2011 }
                 );
+            });
+
+            modelBuilder.Entity<Models.Mechanic>(m =>
+            {
+                m.HasData(
+                    new Models.Mechanic {  IdMechanic = -1, FirstName = "Fname1", LastName = "Lname1" }
+                 );
+            });
+
+            modelBuilder.Entity<Models.Inspection>(i =>
+            {
+                i.HasData(
+                    new Models.Inspection {  IdInspection = -1, IdCar = -1, IdMechanic = -1, InspectionDate = new DateTime(2021, 11, 18) },
+                    new Models.Inspection { IdInspection = -2, IdCar = -1, IdMechanic = -1, InspectionDate = new DateTime(2022, 01, 21), Comment = "Post Accident" },
+                    new Models.Inspection { IdInspection = -3, IdCar = -2, IdMechanic = -1, InspectionDate = new DateTime(2022, 03, 02) }
+                 );
             });
         }
     }
