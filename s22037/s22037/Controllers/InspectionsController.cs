@@ -40,17 +40,20 @@ namespace s22037.Controllers
             return Ok(await inspections.ToListAsync());
         }
 
-        //Task update: not chaning service for the car
-        //(makes no sense, service is a dictionary type, it does not belong to a car in any sense)
-        //but instead changing which car undergoes the specific inspection.
-
-        [HttpPut("{idInspection}")]
-        public IActionResult ChangeCar(int idInspection)
+        [HttpPut("{idInspection}/{idCar}")]
+        public async Task<IActionResult> ChangeCar(int idInspection, int idCar)
         {
             Models.Inspection inspection = _dbContex.Inspections.Where(i => i.IdInspection == idInspection).SingleOrDefault();
             if (inspection == null) return NotFound("The database contains no inspection of this id.");
-            //First, check if this inspection exists.
-            return Ok("Testing stage");
+            if (inspection.InspectionDate < DateTime.Today) return BadRequest("Cannot modify a completed inspection."); //Maybe something else than BadRequest but 4xx.
+
+            Models.Car car = _dbContex.Cars.Where(c => c.IdCar == idCar).SingleOrDefault();
+            if (car == null) return NotFound("The database contains no car of this id.");
+
+            inspection.IdCar = idCar;
+            await _dbContex.SaveChangesAsync();
+
+            return Ok(); //Might be 201Created.
         }
     }
 }
