@@ -23,8 +23,6 @@ namespace s22037.Controllers
         [HttpGet]
         public async Task<IActionResult> GetInspections()
         {
-
-            //For each inspection includes and includes
             var inspections = _dbContex.Inspections.Include(i => i.Car).Include(i => i.Mechanic)
                 .Select(i => new
                 {
@@ -34,10 +32,14 @@ namespace s22037.Controllers
                         .Select(c => new { Name = c.Name, YearOfProduction = c.ProductionYear }).Single(),
                     Mechanic = _dbContex.Mechanics.Where(m => i.IdMechanic == m.IdMechanic)
                         .Select(m => new { Name = m.FirstName, Surname = m.LastName }).Single(),
-                    ListOfServices = "ToBeImplemented",
+                    ListOfServices = _dbContex.ServiceTypeDict_Inspections.Where(sti => sti.IdInspection == i.IdInspection)
+                        .Include(sti => sti.ServiceType)
+                        .Select(sti => sti.ServiceType.ServiceType ).ToList(),
                     Comment = i.Comment
                 });
             return Ok(await inspections.ToListAsync());
         }
+
+        //The second part may be in inspection too - not the best way but idk what else. The association between services and cars is literally inspection.
     }
 }
