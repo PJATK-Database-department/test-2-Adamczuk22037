@@ -46,7 +46,9 @@ namespace s22037
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "s22037 v1"));
             }
 
-            //app.UseHttpsRedirection();
+            //Not sure if it doesn't break something on school network?
+            //Commented out just in case, uncomment if preferred.
+            //app.UseHttpsRedirection(); 
 
             app.UseRouting();
 

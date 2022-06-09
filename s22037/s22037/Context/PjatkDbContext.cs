@@ -19,7 +19,7 @@ namespace s22037.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.ServiceTypeDict_Inspection>().HasKey(sti => new { sti.IdServiceType, sti.IdInspection });
-            seedData(modelBuilder);
+            SeedData(modelBuilder);
         }
 
         public DbSet<Models.Car> Cars { get; set; }
@@ -29,7 +29,7 @@ namespace s22037.Context
         public DbSet<Models.ServiceTypeDict_Inspection> ServiceTypeDict_Inspections { get; set; }
 
         //Negative ids as per VisualStudio error's suggestion, to easily tell them apart from actual data.
-        private void seedData(ModelBuilder modelBuilder)
+        private void SeedData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.Car>(c =>
             {

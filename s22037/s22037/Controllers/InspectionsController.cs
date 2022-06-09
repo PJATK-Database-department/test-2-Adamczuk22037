@@ -40,6 +40,7 @@ namespace s22037.Controllers
             return Ok(await inspections.ToListAsync());
         }
 
+        //Asked about placing it here, approved.
         [HttpPut("{idInspection}/{idCar}")]
         public async Task<IActionResult> ChangeCar(int idInspection, int idCar)
         {
